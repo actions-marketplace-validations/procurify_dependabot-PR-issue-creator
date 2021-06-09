@@ -1,0 +1,32 @@
+{
+    "github-username1": {
+        "jira": {
+            "project_key": "",
+            "jira_id": ""
+        },
+        "linear": {
+            "project_key": "",
+            "linear_id": ""
+        }
+    },
+    "github-username2": {
+        "jira": {
+            "project_key": "",
+            "jira_id": ""
+        },
+        "linear": {
+            "project_key": "",
+            "linear_id": ""
+        }
+    },
+    "github-username3": {
+        "jira": {
+            "project_key": "",
+            "jira_id": ""
+        },
+        "linear": {
+            "project_key": "",
+            "linear_id": ""
+        }
+    }
+}
