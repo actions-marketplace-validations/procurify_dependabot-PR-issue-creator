@@ -19,8 +19,7 @@ jobs:
     if: contains( github.event.pull_request.labels.*.name, '📦 dependencies' )
     env: 
       CONFIG_FILE: .github/reviewers-info.json
-      GITHUB_USERNAME: ${{ secrets.DEPENDABOT_GITHUB_USERNAME }}
-      GITHUB_TOKEN: ${{ secrets.DEPENDABOT_GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -35,17 +34,19 @@ jobs:
       - name: install requests
         run: pip install requests
         
-      - name: Run Python Jira Script
+      - name: Create Issue
         run: |
-          python ./bin/create-issue-from-dependency-PR/create-jira-ticket.py -e $GITHUB_EVENT_PATH -u $JIRA_API_EMAIL -p $JIRA_API_TOKEN -config ${{ env.CONFIG_FILE }} -gu ${{ env.GITHUB_USERNAME }} -gp ${{ env.GITHUB_TOKEN }}
+          if [ ${{ env.WHICH }} == "JIRA" ]
+          then
+            python ./bin/create-issue-from-dependency-PR/create-jira-ticket.py -e $GITHUB_EVENT_PATH -u $JIRA_API_EMAIL -p $JIRA_API_TOKEN -config ${{ env.CONFIG_FILE }} -gt ${{ env.GITHUB_TOKEN }} -ref $GITHUB_REF
+          elif [ ${{ env.WHICH }} == "LINEAR" ]
+          then
+            python ./bin/create-issue-from-dependency-PR/create-linear-issue-for-dependencies-pr.py -e $GITHUB_EVENT_PATH -p $LINEAR_API_TOKEN -config ${{ env.CONFIG_FILE }} -gt ${{ env.GITHUB_TOKEN }} -ref $GITHUB_REF
+          fi
         env: 
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
           JIRA_API_EMAIL: ${{ secrets.JIRA_API_EMAIL }}
-
-      - name: Run Python Linear Script
-        run: |
-          python ./bin/create-issue-from-dependency-PR/create-linear-issue-for-dependencies-pr.py -e $GITHUB_EVENT_PATH -p $LINEAR_API_TOKEN -config ${{ env.CONFIG_FILE }} -gu ${{ env.GITHUB_USERNAME }} -gp ${{ env.GITHUB_TOKEN }}
-        env: 
           LINEAR_API_TOKEN: ${{ secrets.LINEAR_API_TOKEN }} 
+          WHICH: LINEAR
 
       
