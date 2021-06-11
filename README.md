@@ -1,4 +1,4 @@
-# Dependabot PR Issue Creator
+# Description
 This action allows you to automatically create an issue on a reviewer's Linear/Jira board when a reviewer is added to a pull request with a '📦 dependencies' label. 
 
 # Setup
