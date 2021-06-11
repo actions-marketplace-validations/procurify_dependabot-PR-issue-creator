@@ -1,7 +1,8 @@
 name: Create Issue for Dependencies Pull Request
 description: create an issue on a reviewer's Linear/Jira board when a reviewer is added to a pull request with a '📦 dependencies' label 
-icon: archive
-color: purple
+branding: 
+  icon: archive
+  color: purple
 
 on:
   pull_request:
